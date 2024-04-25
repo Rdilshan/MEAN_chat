@@ -1,12 +1,17 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
+const bodyParser = require('body-parser');
+
 const session = require("express-session");
 const dotenv = require("dotenv");
 dotenv.config();
 
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 const User = require("./model/user");
 const currentDate = new Date();
