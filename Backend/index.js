@@ -11,6 +11,20 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = require("./model/user");
 const currentDate = new Date();
 
+
+
+app.use(session({
+  secret: 'your-secret-key', // Replace 'your-secret-key' with your actual secret key
+  resave: false,
+  saveUninitialized: false
+}));
+
+
+// Initialize Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 passport.serializeUser(function (user, done) {
   done(null, user.id);
 });
@@ -25,16 +39,6 @@ passport.deserializeUser(async function (id, done) {
 });
 
 
-app.use(session({
-  secret: 'your-secret-key', // Replace 'your-secret-key' with your actual secret key
-  resave: false,
-  saveUninitialized: false
-}));
-
-
-// Initialize Passport middleware
-app.use(passport.initialize());
-app.use(passport.session());
 
 passport.use(
   new GoogleStrategy(
