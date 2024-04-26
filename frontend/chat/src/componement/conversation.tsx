@@ -1,12 +1,19 @@
-import React from "react";
+import { useStore } from "./store.ts";
 
 export default function Conversation() {
+  const store = useStore();
+  function viewmember() {
+    store.setvisble(true);
+  }
+
   return (
     <>
       <div className="col-sm-8 conversation">
       <div className="row heading">
           <div className="col-sm-2 col-md-1 col-xs-3 heading-avatar mobileflex">
-          <i className="fa  fa-2x  fa-angle-left backicon" aria-hidden="true"></i>
+          <i className="fa  fa-2x  fa-angle-left backicon" aria-hidden="true" onClick={()=>{
+            viewmember()
+          }}></i>
             <div className="heading-avatar-icon">
               <img src="img/man-2-512.png" />
             </div>

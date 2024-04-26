@@ -1,14 +1,14 @@
-import { useState } from "react";
+import { useStore } from "./store.ts";
 
 export default function Side() {
-  const [isVisible, setIsVisible] = useState(true);
+  const store = useStore();
   function viewchat() {
-    setIsVisible(false);
+    store.setvisble(false);
   }
 
   return (
     <>
-       <div className={`col-sm-4 side ${isVisible ? '' : 'dontshow'}`}>
+      <div className={`col-sm-4 side ${store.visble ? "" : "dontshow"}`}>
         <div className="side-one">
           <div className="row heading">
             <div className="col-sm-3 col-xs-3 heading-avatar">
