@@ -1,9 +1,14 @@
-import React from "react";
+import { useState } from "react";
 
 export default function Side() {
+  const [isVisible, setIsVisible] = useState(true);
+  function viewchat() {
+    setIsVisible(false);
+  }
+
   return (
     <>
-      <div className="col-sm-4 side">
+       <div className={`col-sm-4 side ${isVisible ? '' : 'dontshow'}`}>
         <div className="side-one">
           <div className="row heading">
             <div className="col-sm-3 col-xs-3 heading-avatar">
@@ -41,7 +46,12 @@ export default function Side() {
           </div>
 
           <div className="row sideBar">
-            <div className="row sideBar-body">
+            <div
+              className="row sideBar-body"
+              onClick={() => {
+                viewchat();
+              }}
+            >
               <div className="col-sm-3 col-xs-3 sideBar-avatar">
                 <div className="avatar-icon">
                   <img src="img/man-2-512.png" />
@@ -297,13 +307,8 @@ export default function Side() {
                 </div>
               </div>
             </div>
-
-
           </div>
-
-          
         </div>
-        
       </div>
     </>
   );
