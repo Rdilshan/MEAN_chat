@@ -165,7 +165,7 @@ body {
   background-color: #fff;
   overflow-y: auto;
   border: 1px solid #f7f7f7;
-  height: calc(100% - 120px);
+  height: 83vh;
 }
 
 .sideBar-body {
@@ -498,9 +498,7 @@ body {
     color: #fff;
     cursor: pointer;
   }
-  .sideBar {
-    height: calc(100% - 130px);
-  }
+
   .sideBar-body {
     height: 80px;
   }
