@@ -22,7 +22,6 @@ body {
 .app {
   position: relative;
   overflow: hidden;
-  top: 19px;
   height: calc(100% - 38px);
   margin: auto !important;
   padding: 0 !important;
@@ -305,10 +304,9 @@ body {
 .conversation {
   padding: 0 !important;
   margin: 0 !important;
-  height: 100%;
-  /*width: 100%;*/
+  height: 100vh;
   border-left: 1px solid rgba(0, 0, 0, .08);
-  /*overflow-y: auto;*/
+
 }
 
 .message {
