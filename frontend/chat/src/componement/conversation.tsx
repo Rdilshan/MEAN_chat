@@ -5,7 +5,8 @@ export default function Conversation() {
     <>
       <div className="col-sm-8 conversation">
       <div className="row heading">
-          <div className="col-sm-2 col-md-1 col-xs-3 heading-avatar">
+          <div className="col-sm-2 col-md-1 col-xs-3 heading-avatar mobileflex">
+          <i className="fa  fa-2x  fa-angle-left backicon" aria-hidden="true"></i>
             <div className="heading-avatar-icon">
               <img src="img/man-2-512.png" />
             </div>
