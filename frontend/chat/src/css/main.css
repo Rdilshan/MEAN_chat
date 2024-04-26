@@ -543,10 +543,7 @@ body {
   .conversation {
     padding: 0 !important;
     margin: 0 !important;
-    height: 100%;
-    /*width: 100%;*/
     border-left: 1px solid rgba(0, 0, 0, .08);
-    /*overflow-y: auto;*/
   }
   .message {
     height: calc(100% - 140px);
