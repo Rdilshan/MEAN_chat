@@ -141,6 +141,7 @@ body {
   margin: 0 !important;
   height: 60px;
   width: 100%;
+
 }
 
 .searchBox-inner {
@@ -148,6 +149,7 @@ body {
   width: 100%;
   padding: 10px !important;
   background-color: #fbfbfb;
+  margin-top: -8px;
 }
 
 
