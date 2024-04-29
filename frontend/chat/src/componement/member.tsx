@@ -1,5 +1,6 @@
 import Conversation from "./conversation";
 import Getinvited from "./getinvited";
+import Joinmember from "./joinmember";
 import Side from "./side";
 
 export default function Chatsmember() {
@@ -11,7 +12,9 @@ export default function Chatsmember() {
           <Side />
 
           {/* <Conversation /> */}
-          <Getinvited />
+          {/* <Getinvited /> */}
+          <Joinmember />
+
 
         </div>
       </div>
