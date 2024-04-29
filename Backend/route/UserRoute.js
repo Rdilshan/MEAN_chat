@@ -20,5 +20,6 @@ router.get("/home", middleware.checking, (req, resp) => {
     // resp.send("home");
     resp.send(req.user._id);
 });
+router.get("/get",userController.get);
 
 module.exports = router

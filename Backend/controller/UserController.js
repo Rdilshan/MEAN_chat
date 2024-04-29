@@ -11,4 +11,13 @@ const callback=(req,resp)=>{
     resp.status(204).json({data:"runing"})
 
 }
-module.exports = { userRegistation,callback };
+
+const get=(req,resp)=>{
+    const user = req.user._id;
+    if (!user) {
+        resp.status(404).json({msg: "empty"});
+    } else {
+        resp.status(204).json({msg: "data", data: user});
+    }
+}
+module.exports = { userRegistation,callback,get };
