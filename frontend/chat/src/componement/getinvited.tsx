@@ -1,9 +1,20 @@
+import { getlinkstore } from "./store";
+
 export default function Getinvited() {
+
+  const linkstore = getlinkstore();
+
   return (
     <>
-      <div className="col-sm-8 conversation">
+      <div
+        className={`col-sm-8 conversation ${
+          linkstore.visble === true ? "hide" : ""
+        }`}
+      >
         <div className="row heading">
-          <div className="col-sm-2 col-md-1 col-xs-3 heading-avatar mobileflex">
+          <div className="col-sm-2 col-md-1 col-xs-3 heading-avatar mobileflex" onClick={() => {
+                linkstore.setvisble(!linkstore.visble);
+              }}>
             <i className="fa  fa-2x  fa-angle-left backicon"
               aria-hidden="true"></i>
            

@@ -11,8 +11,8 @@ export default function Chatsmember() {
 
           <Side />
 
-          {/* <Conversation /> */}
-          {/* <Getinvited /> */}
+          <Conversation />
+          <Getinvited />
           <Joinmember />
 
 

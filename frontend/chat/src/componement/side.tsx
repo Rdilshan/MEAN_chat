@@ -1,14 +1,16 @@
-import { useStore } from "./store.ts";
+import { getlinkstore, useStore } from "./store.ts";
 
 export default function Side() {
   const store = useStore();
+  const linkstore = getlinkstore();
+
   function viewchat() {
     store.setvisble(false);
   }
 
   return (
     <>
-      <div className={`col-sm-4 side ${store.visble ? "" : "dontshow"}`}>
+      <div className={`col-sm-4 side ${store.visble ? "" : "dontshow"} ${linkstore.visble === false ? "dontshow" : ""}`}>
         <div className="side-one">
           <div className="row heading">
             <div className="col-sm-3 col-xs-3 heading-avatar">
@@ -17,12 +19,14 @@ export default function Side() {
               </div>
             </div>
             <div className="col-sm-1 col-xs-1  heading-dot  pull-right">
-              <i
-                className="fa  fa-2x fa-group"
-                aria-hidden="true"
-              ></i>
+              <i className="fa  fa-2x fa-group" aria-hidden="true"></i>
             </div>
-            <div className="col-sm-2 col-xs-2 heading-compose  pull-right">
+            <div
+              className="col-sm-2 col-xs-2 heading-compose  pull-right"
+              onClick={() => {
+                linkstore.setvisble(!linkstore.visble);
+              }}
+            >
               <i
                 className="fa fa-comments fa-2x  pull-right"
                 aria-hidden="true"
