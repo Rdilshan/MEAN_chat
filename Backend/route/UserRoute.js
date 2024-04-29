@@ -17,9 +17,9 @@ router.get("/logout",(req,resp)=>{
     res.redirect('/');
 })
 router.get("/home", middleware.checking, (req, resp) => {
-    // resp.send("home");
-    resp.send(req.user._id);
+    resp.status(200).json({data: req.user });
+    // resp.send(req.user._id);
 });
-router.get("/get",userController.get);
+router.get("/getuser",userController.getuser);
 
 module.exports = router
