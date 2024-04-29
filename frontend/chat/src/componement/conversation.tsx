@@ -1,8 +1,10 @@
-import { getlinkstore, useStore } from "./store.ts";
+import { Joinstore, getlinkstore, useStore } from "./store.ts";
 
 export default function Conversation() {
   const store = useStore();
   const linkstore = getlinkstore();
+ const joinstore = Joinstore();
+
   function viewmember() {
     store.setvisble(true);
   }
@@ -10,9 +12,10 @@ export default function Conversation() {
   return (
     <>
       <div
-        className={`col-sm-8 conversation ${
-          linkstore.visble === false ? "hide" : ""
-        }`}
+        className={`col-sm-8 conversation 
+        ${linkstore.visble === false ? "hide" : ""}
+        ${joinstore.visble === false ? "hide" : ""}` 
+      }
       >
         <div className="row heading">
           <div className="col-sm-2 col-md-1 col-xs-3 heading-avatar mobileflex">

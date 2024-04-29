@@ -1,12 +1,20 @@
+import { Joinstore } from "./store";
 
 
 export default function Joinmember() {
+  const joinstore = Joinstore();
   return (
     <>
       <>
-        <div className="col-sm-8 conversation">
+      <div
+        className={`col-sm-8 conversation ${
+          joinstore.visble === true ? "hide" : ""
+        }`}
+      >
           <div className="row heading">
-            <div className="col-sm-2 col-md-1 col-xs-3 heading-avatar mobileflex">
+          <div className="col-sm-2 col-md-1 col-xs-3 heading-avatar mobileflex" onClick={() => {
+                joinstore.setvisble(!joinstore.visble);
+              }}>
               <i
                 className="fa  fa-2x  fa-angle-left backicon"
                 aria-hidden="true"

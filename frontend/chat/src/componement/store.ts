@@ -17,7 +17,7 @@ export const getlinkstore = create<AppState>((set) => ({
   setvisble: (visble) => set({ visble }),
 }));
 
-export const joinstore = create<AppState>((set) => ({
+export const Joinstore = create<AppState>((set) => ({
   visble: true,
   setvisble: (visble) => set({ visble }),
 }));

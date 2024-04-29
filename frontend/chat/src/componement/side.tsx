@@ -1,8 +1,9 @@
-import { getlinkstore, useStore } from "./store.ts";
+import { Joinstore, getlinkstore, useStore } from "./store.ts";
 
 export default function Side() {
   const store = useStore();
   const linkstore = getlinkstore();
+  const joinstore = Joinstore();
 
   function viewchat() {
     store.setvisble(false);
@@ -10,7 +11,7 @@ export default function Side() {
 
   return (
     <>
-      <div className={`col-sm-4 side ${store.visble ? "" : "dontshow"} ${linkstore.visble === false ? "dontshow" : ""}`}>
+      <div className={`col-sm-4 side ${store.visble ? "" : "dontshow"} ${linkstore.visble === false ? "dontshow" : ""} ${joinstore.visble === false ? "dontshow" : ""}`}>
         <div className="side-one">
           <div className="row heading">
             <div className="col-sm-3 col-xs-3 heading-avatar">
@@ -18,7 +19,11 @@ export default function Side() {
                 <img src="img/man-2-512.png" />
               </div>
             </div>
-            <div className="col-sm-1 col-xs-1  heading-dot  pull-right">
+            <div className="col-sm-1 col-xs-1  heading-dot  pull-right"
+            onClick={() => {
+              joinstore.setvisble(!joinstore.visble);
+            }}
+            >
               <i className="fa  fa-2x fa-group" aria-hidden="true"></i>
             </div>
             <div
