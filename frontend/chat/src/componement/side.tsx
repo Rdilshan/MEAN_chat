@@ -18,7 +18,7 @@ export default function Side() {
             </div>
             <div className="col-sm-1 col-xs-1  heading-dot  pull-right">
               <i
-                className="fa fa-ellipsis-v fa-2x  pull-right"
+                className="fa  fa-2x fa-group"
                 aria-hidden="true"
               ></i>
             </div>
