@@ -34,7 +34,7 @@ export default function Getinvited() {
                   <input
                     type="text"
                     className="form-control"
-                    value="39XMhLRH54kNyYHfiUWC8xrz5HRmZQxL7f"
+                    defaultValue ="39XMhLRH54kNyYHfiUWC8xrz5HRmZQxL7f"
                   />
                   <button
                     id="btn01"
