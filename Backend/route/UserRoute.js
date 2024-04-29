@@ -9,7 +9,7 @@ router.get("/create", passport.authenticate('google', { scope: ['profile','email
 router.get("/auth/google/callback",passport.authenticate('google'), (req, resp) => {
     // resp.send(req.user);
 
-    resp.redirect("/home");  
+    resp.redirect("http://localhost:5173/");  
 });
 router.get("/logout",(req,resp)=>{
     console.log("logged out!");
