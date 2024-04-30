@@ -12,9 +12,9 @@ router.get("/auth/google/callback",passport.authenticate('google'), (req, resp) 
     resp.redirect("http://localhost:5173/");  
 });
 router.get("/logout",(req,resp)=>{
-    console.log("logged out!");
-    req.logout();
-    res.redirect('/');
+    req.session.destroy(function (err) {
+        resp.redirect('/api/user/home'); 
+      });
 })
 router.get("/home", middleware.checking, (req, resp) => {
     resp.status(200).json({data: req.user });
