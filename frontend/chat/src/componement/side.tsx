@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Joinstore, getlinkstore, useStore, userStore } from "./store.ts";
+import axios from "axios";
+
 
 export default function Side() {
   const [menuview, setMenuView] = useState<boolean>(false);
@@ -14,6 +16,21 @@ export default function Side() {
     joinstore.setvisble(true);
     linkstore.setvisble(true);
     setMenuView(false);
+  }
+  function logout(){
+    axios
+      .get("http://localhost:3000/api/user/logout", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+       
+          console.log(res.data)
+        
+
+      });
   }
 
   return (
@@ -58,7 +75,7 @@ export default function Side() {
               >
                 Your link
               </li>
-              <li>Logout</li>
+              <li onClick={logout}>Logout</li>
             </ul>
           </div>
 
