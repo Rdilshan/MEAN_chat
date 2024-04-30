@@ -1,11 +1,13 @@
-import { Joinstore, getlinkstore, useStore,userStore } from "./store.ts";
+import { useState } from "react";
+import { Joinstore, getlinkstore, useStore, userStore } from "./store.ts";
 
 export default function Side() {
+  const [menuview, setMenuView] = useState<boolean>(false);
+
   const store = useStore();
   const linkstore = getlinkstore();
   const joinstore = Joinstore();
   const user = userStore();
-
 
   function viewchat() {
     store.setvisble(false);
@@ -13,7 +15,11 @@ export default function Side() {
 
   return (
     <>
-      <div className={`col-sm-4 side ${store.visble ? "" : "dontshow"} ${linkstore.visble === false ? "dontshow" : ""} ${joinstore.visble === false ? "dontshow" : ""}`}>
+      <div
+        className={`col-sm-4 side ${store.visble ? "" : "dontshow"} ${
+          linkstore.visble === false ? "dontshow" : ""
+        } ${joinstore.visble === false ? "dontshow" : ""}`}
+      >
         <div className="side-one">
           <div className="row heading">
             <div className="col-sm-3 col-xs-3 heading-avatar">
@@ -21,24 +27,36 @@ export default function Side() {
                 <img src={`${user.user.profilepic}`} />
               </div>
             </div>
-            <div className="col-sm-1 col-xs-1  heading-dot  pull-right"
-            onClick={() => {
-              joinstore.setvisble(!joinstore.visble);
-            }}
-            >
-              <i className="fa  fa-2x fa-group" aria-hidden="true"></i>
-            </div>
+
             <div
-              className="col-sm-2 col-xs-2 heading-compose  pull-right"
+              className="col-sm-1 col-xs-1  heading-dot  pull-right"
               onClick={() => {
-                linkstore.setvisble(!linkstore.visble);
+                setMenuView(!menuview);
               }}
             >
               <i
-                className="fa fa-comments fa-2x  pull-right"
+                className="fa fa-ellipsis-v fa-2x  pull-right"
                 aria-hidden="true"
               ></i>
             </div>
+
+            <ul className={`menuset ${menuview ? "" : "hide"}`}>
+              <li
+                onClick={() => {
+                  joinstore.setvisble(!joinstore.visble);
+                }}
+              >
+                Join member
+              </li>
+              <li
+                onClick={() => {
+                  linkstore.setvisble(!linkstore.visble);
+                }}
+              >
+                Your link
+              </li>
+              <li>Logout</li>
+            </ul>
           </div>
 
           <div className="row searchBox">
