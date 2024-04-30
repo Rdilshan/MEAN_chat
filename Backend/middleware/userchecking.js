@@ -6,7 +6,7 @@ const checking = (req, resp, next) => {
     if (!req.user) {
         // If user is not authenticated, redirect them to the "/api/user/create" route
         // resp.redirect("/api/user/create");
-        resp.status(201).json({ data: "not login" });
+        resp.status(400).json({ data: "not login" });
     } else {
         // If user is authenticated, pass the request to the next middleware in the chain
         next();
