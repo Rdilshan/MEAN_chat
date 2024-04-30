@@ -26,3 +26,4 @@ dist-ssr
 ./frontend/chat/node_modules
 ./Backend/node_modules
 ./Backend/.env
+config.bat

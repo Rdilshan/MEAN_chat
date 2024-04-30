@@ -29,6 +29,11 @@ export default function Side() {
               ></i>
             </div>
           </div>
+            <ul className="menuset">
+              <li>Join member</li>
+              <li>Your link</li>
+              <li>Logout</li>
+            </ul>
 
           <div className="row searchBox">
             <div className="col-sm-12 searchBox-inner">
