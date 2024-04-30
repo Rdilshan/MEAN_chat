@@ -1,9 +1,11 @@
-import { Joinstore, getlinkstore, useStore } from "./store.ts";
+import { Joinstore, getlinkstore, useStore,userStore } from "./store.ts";
 
 export default function Side() {
   const store = useStore();
   const linkstore = getlinkstore();
   const joinstore = Joinstore();
+  const user = userStore();
+
 
   function viewchat() {
     store.setvisble(false);
@@ -16,7 +18,7 @@ export default function Side() {
           <div className="row heading">
             <div className="col-sm-3 col-xs-3 heading-avatar">
               <div className="heading-avatar-icon">
-                <img src="img/man-2-512.png" />
+                <img src={`${user.user.profilepic}`} />
               </div>
             </div>
             <div className="col-sm-1 col-xs-1  heading-dot  pull-right"

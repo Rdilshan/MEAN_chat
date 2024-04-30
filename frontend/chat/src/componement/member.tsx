@@ -4,8 +4,14 @@ import Getinvited from "./getinvited";
 import Joinmember from "./joinmember";
 import Side from "./side";
 import axios from "axios";
+import { userStore } from "./store";
+
 
 export default function Chatsmember() {
+
+  const user = userStore();
+
+
   useEffect(() => {
     checkinglogin();
   });
@@ -21,7 +27,7 @@ export default function Chatsmember() {
         if(res.data.data == "not login"){
           window.location.href = '/signIn';
         }else{
-          console.log(res.data.data);
+          user.setuser(res.data.data);
         }
 
       });
