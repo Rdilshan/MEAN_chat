@@ -16,7 +16,8 @@ export default function Chatsmember() {
     checkinglogin();
   });
   const checkinglogin = () => {
-    axios
+    try {
+      axios
       .get("http://localhost:3000/api/user/home", {
         headers: {
           "Content-Type": "application/json",
@@ -31,6 +32,11 @@ export default function Chatsmember() {
         }
 
       });
+    } catch (error) {
+      window.location.href = '/signIn';
+      console.log("error")
+    }
+   
   };
   return (
     <div>
