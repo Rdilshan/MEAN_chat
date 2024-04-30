@@ -97,4 +97,8 @@ mongoose.connect("mongodb://localhost:27017/chat").then(() =>
 );
 
 const userRoute = require("./route/UserRoute");
+const chatRoute = require("./route/chatRoute");
+
 app.use("/api/user", userRoute);
+app.use("/api/chat", chatRoute);
+
