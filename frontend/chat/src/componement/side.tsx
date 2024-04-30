@@ -11,6 +11,9 @@ export default function Side() {
 
   function viewchat() {
     store.setvisble(false);
+    joinstore.setvisble(true);
+    linkstore.setvisble(true);
+    setMenuView(false);
   }
 
   return (
