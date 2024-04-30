@@ -1,8 +1,10 @@
-import { getlinkstore } from "./store";
+import { getlinkstore,userStore } from "./store";
 
 export default function Getinvited() {
 
   const linkstore = getlinkstore();
+  const user = userStore();
+
 
   return (
     <>
@@ -34,7 +36,8 @@ export default function Getinvited() {
                   <input
                     type="text"
                     className="form-control"
-                    defaultValue ="39XMhLRH54kNyYHfiUWC8xrz5HRmZQxL7f"
+                    readOnly
+                    defaultValue ={user.user._id}
                   />
                   <button
                     id="btn01"
