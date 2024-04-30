@@ -10,7 +10,11 @@ dotenv.config();
 
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD'],
+  credentials: true
+}));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -22,7 +26,11 @@ const currentDate = new Date();
 app.use(session({
   secret: 'your-secret-key', // Replace 'your-secret-key' with your actual secret key
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: true,
+  cookie:{
+    httpOnly:true,
+    maxAge:3600000000
+  }
 }));
 
 
