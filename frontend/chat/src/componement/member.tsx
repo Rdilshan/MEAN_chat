@@ -14,7 +14,7 @@ export default function Chatsmember() {
 
   useEffect(() => {
     checkinglogin();
-  });
+  },[0]);
   const checkinglogin = () => {
     try {
       axios
@@ -25,6 +25,7 @@ export default function Chatsmember() {
         withCredentials: true,
       })
       .then((res) => {
+        console.log(res.data)
         if(res.data.data == "not login"){
           window.location.href = '/signIn';
         }else{
