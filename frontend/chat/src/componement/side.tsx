@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Joinstore, getlinkstore, useStore, userStore } from "./store.ts";
+import { Joinstore, getlinkstore, useStore, userStore,useConversationStore } from "./store.ts";
 import axios from "axios";
 
 
@@ -21,9 +21,11 @@ export default function Side() {
   const linkstore = getlinkstore();
   const joinstore = Joinstore();
   const user = userStore();
+  const conversationID = useConversationStore();
+
 
   function viewchat(id: string) {
-    console.log(id)
+    conversationID.setValue(id)
     store.setvisble(false);
     joinstore.setvisble(true);
     linkstore.setvisble(true);
