@@ -49,3 +49,13 @@ export const userStore = create<Usercollection>((set) => ({
   },
   setuser: (user) => set({ user }),
 }));
+
+interface ConversationState {
+  value: string;
+  setValue: (newValue: string) => void;
+}
+
+export const useConversationStore = create<ConversationState>((set) => ({
+  value: "",
+  setValue: (newValue: string) => set({ value: newValue }),
+}));
