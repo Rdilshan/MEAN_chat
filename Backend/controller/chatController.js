@@ -8,26 +8,35 @@ const chatcreate = async (req, resp) => {
     const userid = req.user._id;
     const requestData = req.body.refid;
     if (!mongoose.Types.ObjectId.isValid(requestData)) {
-      return resp.status(400).json({ error: "Invalid refid format" });
+      return resp.status(201).json({ msg: "Invalid refid format" });
     }
     var id = requestData;
     const finduser = await User.findById(id);
 
     if (finduser) {
-        
-      const newChat = new chat({
-        users: [requestData, userid],
-        createdAt: new Date(),
-      });
+      const chats = await chat.find({ users: { $all: [requestData, userid] } });
 
-      newChat
-        .save()
-        .then((savedChat) => {
-          resp.status(201).json({ msg: savedChat });
-        })
-        .catch((error) => {
-          resp.status(500).json({ error: error.message });
+      if (chats.length === 0) {
+        const newChat = new chat({
+          users: [requestData, userid],
+          createdAt: new Date(),
         });
+
+        newChat
+          .save()
+          .then((savedChat) => {
+            resp.status(201).json({ msg: savedChat });
+          })
+          .catch((error) => {
+            resp.status(500).json({ error: error.message });
+          });
+      }else{
+        resp.status(201).json({ msg: "already have this chat" });
+
+      }
+    }else{
+        resp.status(201).json({ msg: "Id is wrong" });
+
     }
   } catch (error) {
     console.error("Error finding user:", error);

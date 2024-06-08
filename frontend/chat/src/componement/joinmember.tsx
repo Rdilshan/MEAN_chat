@@ -25,6 +25,7 @@ export default function Joinmember() {
         }
       );
       console.log('Data sent successfully:', response.data);
+      alert(response.data.msg);
       setdata("")
     } catch (error) {
       console.error('Error sending data:', error);
