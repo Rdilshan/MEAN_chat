@@ -1,8 +1,37 @@
+import { SetStateAction, useState } from "react";
 import { Joinstore } from "./store";
+import axios from "axios";
 
 
 export default function Joinmember() {
+
+  const[data,setdata] = useState("");
   const joinstore = Joinstore();
+
+  const handleInputChange = (event: { target: { value: SetStateAction<string>; }; }) => {
+    setdata(event.target.value);
+  };
+
+  const sendData = async () => {
+    try {
+      const response = await axios.post(
+        'http://localhost:3000/api/chat/create',
+        { refid: data }, 
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      console.log('Data sent successfully:', response.data);
+      setdata("")
+    } catch (error) {
+      console.error('Error sending data:', error);
+    }
+  };
+  
+
   return (
     <>
       <>
@@ -32,9 +61,11 @@ export default function Joinmember() {
                     style={{ marginBottom: "20px" }}
                   >
                     <input
+                    value={data}
                       type="text"
                       className="form-control"
                       placeholder="your friend Code.."
+                      onChange={handleInputChange}
                     />
                     <button
                       id="btn01"
@@ -45,7 +76,7 @@ export default function Joinmember() {
                       data-bs-toggle="tooltip"
                       data-bs-placement="bottom"
                       title="Copy to Clipboard"
-                      onClick={() => {}}
+                      onClick={sendData}
                     >
                       Submit
                     </button>
