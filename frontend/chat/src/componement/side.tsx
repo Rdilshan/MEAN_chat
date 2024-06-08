@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Joinstore, getlinkstore, useStore, userStore,useConversationStore } from "./store.ts";
 import axios from "axios";
+import {io,Socket} from "socket.io-client";
 
-
+type SocketState = Socket | null;
 export default function Side() {
 
   interface User {
@@ -16,6 +17,18 @@ export default function Side() {
   }
   const [menuview, setMenuView] = useState<boolean>(false);
   const [chats, setChats] = useState<User[]>([]);
+  const [socket, setSocket] = useState<SocketState>(null);
+  const newSocket: Socket = io("ws://localhost:8900");
+
+  useEffect(()=>{
+    setSocket(newSocket);
+  },[])
+
+  useEffect(()=>{
+    newSocket.on("welcome", (msg: string) => {
+      console.log(msg);
+    });
+ },[socket])
 
   const store = useStore();
   const linkstore = getlinkstore();
