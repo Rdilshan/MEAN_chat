@@ -25,7 +25,7 @@ const chatcreate = async (req, resp) => {
         newChat
           .save()
           .then((savedChat) => {
-            resp.status(201).json({ msg: savedChat });
+            resp.status(201).json({ msg: "successfully added" });
           })
           .catch((error) => {
             resp.status(500).json({ error: error.message });
