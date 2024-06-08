@@ -30,13 +30,11 @@ const chatcreate = async (req, resp) => {
           .catch((error) => {
             resp.status(500).json({ error: error.message });
           });
-      }else{
+      } else {
         resp.status(201).json({ msg: "already have this chat" });
-
       }
-    }else{
-        resp.status(201).json({ msg: "Id is wrong" });
-
+    } else {
+      resp.status(201).json({ msg: "Id is wrong" });
     }
   } catch (error) {
     console.error("Error finding user:", error);
@@ -44,17 +42,33 @@ const chatcreate = async (req, resp) => {
   }
 };
 
-const getchats = (req, resp) => {
-  const userid = req.user._id;
-  chat
-    .find({ users: userid })
-    .then((chats) => {
-      resp.status(200).json(chats);
-    })
-    .catch((err) => {
-      resp.status(500).json({ error: err.message });
+const getchats = async (req, resp) => {
+  try {
+    const userid = req.user._id;
+    const chats = await chat.find({ users: userid }).exec();
+    const usersOnly = chats.flatMap((chat) =>
+      chat.users.filter((user) => user != userid)
+    );
+
+    const userPromises = usersOnly.map(async (oneuser) => {
+      try {
+        const finduser = await User.findById(oneuser).exec();
+        return finduser;  
+      } catch (err) {
+        console.error(`Error finding user ${oneuser}:`, err);
+        return null;  
+      }
     });
+
+    const foundUsers = await Promise.all(userPromises);
+    const filteredUsers = foundUsers.filter(user => user !== null);  
+
+    resp.status(200).json(filteredUsers);
+  } catch (err) {
+    resp.status(500).json({ error: err.message });
+  }
 };
+
 
 module.exports = {
   chatcreate,
