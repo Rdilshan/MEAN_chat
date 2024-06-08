@@ -19,6 +19,19 @@ const chatcreate = (req,resp)=>{
         });
 }
 
+const getchats = (req,resp)=>{
+    const userid = req.user._id
+    chat.find({ users: userid })
+        .then(chats => {
+
+            resp.status(200).json(chats);
+        })
+        .catch(err => {
+            resp.status(500).json({ error: err.message });
+        });
+}
+
 module.exports = {
-    chatcreate
+    chatcreate,
+    getchats
 };
