@@ -1,13 +1,17 @@
-import { Joinstore, getlinkstore, useStore } from "./store.ts";
+import { Joinstore, getlinkstore, useStore,useConversationStore } from "./store.ts";
 
 export default function Conversation() {
   const store = useStore();
   const linkstore = getlinkstore();
  const joinstore = Joinstore();
+ const conversationID = useConversationStore();
+  const chatuser = conversationID.user;
 
   function viewmember() {
     store.setvisble(true);
   }
+
+
 
   return (
     <>
@@ -27,11 +31,11 @@ export default function Conversation() {
               }}
             ></i>
             <div className="heading-avatar-icon">
-              <img src="img/man-2-512.png" />
+              <img src={chatuser.profilepic} />
             </div>
           </div>
           <div className="col-sm-8 col-xs-7 heading-name">
-            <a className="heading-name-meta">John Doe</a>
+            <a className="heading-name-meta">{chatuser.name}</a>
             <span>Online</span>
           </div>
           <div className="col-sm-1 col-xs-1  heading-dot pull-right">

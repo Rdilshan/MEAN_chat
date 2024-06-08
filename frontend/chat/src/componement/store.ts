@@ -50,12 +50,16 @@ export const userStore = create<Usercollection>((set) => ({
   setuser: (user) => set({ user }),
 }));
 
-interface ConversationState {
-  value: string;
-  setValue: (newValue: string) => void;
-}
 
-export const useConversationStore = create<ConversationState>((set) => ({
-  value: "",
-  setValue: (newValue: string) => set({ value: newValue }),
+export const useConversationStore = create<Usercollection>((set) => ({
+  user: {
+    _id: "",
+    name: "",
+    email: "",
+    profilepic: "",
+    googleid: "",
+    createdAt: "",
+    __v: 0,
+  },
+  setuser: (user) => set({ user }),
 }));

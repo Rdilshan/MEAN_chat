@@ -11,7 +11,7 @@ export default function Side() {
     email: string;
     profilepic: string;
     googleid: string;
-    createdAt: Date;
+    createdAt: string;
     __v: number;
   }
   const [menuview, setMenuView] = useState<boolean>(false);
@@ -24,8 +24,8 @@ export default function Side() {
   const conversationID = useConversationStore();
 
 
-  function viewchat(id: string) {
-    conversationID.setValue(id)
+  function viewchat(data: User) {
+    conversationID.setuser(data)
     store.setvisble(false);
     joinstore.setvisble(true);
     linkstore.setvisble(true);
@@ -130,7 +130,7 @@ export default function Side() {
               <div
                 className="row sideBar-body" key={index}
                 onClick={() => {
-                  viewchat(chat._id);
+                  viewchat(chat);
                 }}
               >
                 <div className="col-sm-3 col-xs-3 sideBar-avatar">
