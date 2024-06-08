@@ -1,23 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Joinstore, getlinkstore, useStore, userStore } from "./store.ts";
 import axios from "axios";
 
 
 export default function Side() {
+
+  interface User {
+    _id: string;
+    name: string;
+    email: string;
+    profilepic: string;
+    googleid: string;
+    createdAt: Date;
+    __v: number;
+  }
   const [menuview, setMenuView] = useState<boolean>(false);
+  const [chats, setChats] = useState<User[]>([]);
 
   const store = useStore();
   const linkstore = getlinkstore();
   const joinstore = Joinstore();
   const user = userStore();
 
-  function viewchat() {
+  function viewchat(id: string) {
+    console.log(id)
     store.setvisble(false);
     joinstore.setvisble(true);
     linkstore.setvisble(true);
     setMenuView(false);
   }
-  function logout(){
+  function logout() {
     axios
       .get("http://localhost:3000/api/user/logout", {
         headers: {
@@ -26,19 +38,35 @@ export default function Side() {
         withCredentials: true,
       })
       .then((res) => {
-       
-          console.log(res.data)
-        
+
+        console.log(res.data)
+
 
       });
   }
 
+  const chatsetload = () => {
+    axios
+      .get("http://localhost:3000/api/chat/getchat", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+        setChats(res.data);
+      });
+  }
+
+  useEffect(() => {
+    chatsetload();
+  }, []);
+
   return (
     <>
       <div
-        className={`col-sm-4 side ${store.visble ? "" : "dontshow"} ${
-          linkstore.visble === false ? "dontshow" : ""
-        } ${joinstore.visble === false ? "dontshow" : ""}`}
+        className={`col-sm-4 side ${store.visble ? "" : "dontshow"} ${linkstore.visble === false ? "dontshow" : ""
+          } ${joinstore.visble === false ? "dontshow" : ""}`}
       >
         <div className="side-one">
           <div className="row heading">
@@ -95,267 +123,39 @@ export default function Side() {
           </div>
 
           <div className="row sideBar">
-            <div
-              className="row sideBar-body"
-              onClick={() => {
-                viewchat();
-              }}
-            >
-              <div className="col-sm-3 col-xs-3 sideBar-avatar">
-                <div className="avatar-icon">
-                  <img src="img/man-2-512.png" />
-                </div>
-              </div>
-              <div className="col-sm-9 col-xs-9 sideBar-main">
-                <div className="row">
-                  <div className="col-sm-8 col-xs-8 sideBar-name">
-                    <span className="name-meta">John Doe</span>
-                  </div>
-                  <div className="col-sm-4 col-xs-4 pull-right sideBar-time">
-                    <span className="time-meta pull-right">18:18</span>
+          {chats.length > 0 ? (
+            chats.map((chat, index) => (
+              <div
+                className="row sideBar-body" key={index}
+                onClick={() => {
+                  viewchat(chat._id);
+                }}
+              >
+                <div className="col-sm-3 col-xs-3 sideBar-avatar">
+                  <div className="avatar-icon">
+                    <img src={chat.profilepic} />
                   </div>
                 </div>
+                <div className="col-sm-9 col-xs-9 sideBar-main">
+                  <div className="row">
+                    <div className="col-sm-8 col-xs-8 sideBar-name">
+                      <span className="name-meta">{chat.name}</span>
+                    </div>
+                    <div className="col-sm-4 col-xs-4 pull-right sideBar-time">
+                      <span className="time-meta pull-right">18:18</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
+            ))): (
+              <div className="no-chats">
+                <p>You have not chat yet</p>
+              </div>
+            )}
 
-            <div className="row sideBar-body">
-              <div className="col-sm-3 col-xs-3 sideBar-avatar">
-                <div className="avatar-icon">
-                  <img src="img/man-2-512.png" />
-                </div>
-              </div>
-              <div className="col-sm-9 col-xs-9 sideBar-main">
-                <div className="row">
-                  <div className="col-sm-8 col-xs-8 sideBar-name">
-                    <span className="name-meta">John Doe</span>
-                  </div>
-                  <div className="col-sm-4 col-xs-4 pull-right sideBar-time">
-                    <span className="time-meta pull-right">18:18</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="row sideBar-body">
-              <div className="col-sm-3 col-xs-3 sideBar-avatar">
-                <div className="avatar-icon">
-                  <img src="img/man-2-512.png" />
-                </div>
-              </div>
-              <div className="col-sm-9 col-xs-9 sideBar-main">
-                <div className="row">
-                  <div className="col-sm-8 col-xs-8 sideBar-name">
-                    <span className="name-meta">John Doe</span>
-                  </div>
-                  <div className="col-sm-4 col-xs-4 pull-right sideBar-time">
-                    <span className="time-meta pull-right">18:18</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="row sideBar-body">
-              <div className="col-sm-3 col-xs-3 sideBar-avatar">
-                <div className="avatar-icon">
-                  <img src="img/man-2-512.png" />
-                </div>
-              </div>
-              <div className="col-sm-9 col-xs-9 sideBar-main">
-                <div className="row">
-                  <div className="col-sm-8 col-xs-8 sideBar-name">
-                    <span className="name-meta">John Doe</span>
-                  </div>
-                  <div className="col-sm-4 col-xs-4 pull-right sideBar-time">
-                    <span className="time-meta pull-right">18:18</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="row sideBar-body">
-              <div className="col-sm-3 col-xs-3 sideBar-avatar">
-                <div className="avatar-icon">
-                  <img src="img/man-2-512.png" />
-                </div>
-              </div>
-              <div className="col-sm-9 col-xs-9 sideBar-main">
-                <div className="row">
-                  <div className="col-sm-8 col-xs-8 sideBar-name">
-                    <span className="name-meta">John Doe</span>
-                  </div>
-                  <div className="col-sm-4 col-xs-4 pull-right sideBar-time">
-                    <span className="time-meta pull-right">18:18</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="row sideBar-body">
-              <div className="col-sm-3 col-xs-3 sideBar-avatar">
-                <div className="avatar-icon">
-                  <img src="img/man-2-512.png" />
-                </div>
-              </div>
-              <div className="col-sm-9 col-xs-9 sideBar-main">
-                <div className="row">
-                  <div className="col-sm-8 col-xs-8 sideBar-name">
-                    <span className="name-meta">John Doe</span>
-                  </div>
-                  <div className="col-sm-4 col-xs-4 pull-right sideBar-time">
-                    <span className="time-meta pull-right">18:18</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="row sideBar-body">
-              <div className="col-sm-3 col-xs-3 sideBar-avatar">
-                <div className="avatar-icon">
-                  <img src="img/man-2-512.png" />
-                </div>
-              </div>
-              <div className="col-sm-9 col-xs-9 sideBar-main">
-                <div className="row">
-                  <div className="col-sm-8 col-xs-8 sideBar-name">
-                    <span className="name-meta">John Doe</span>
-                  </div>
-                  <div className="col-sm-4 col-xs-4 pull-right sideBar-time">
-                    <span className="time-meta pull-right">18:18</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="row sideBar-body">
-              <div className="col-sm-3 col-xs-3 sideBar-avatar">
-                <div className="avatar-icon">
-                  <img src="img/man-2-512.png" />
-                </div>
-              </div>
-              <div className="col-sm-9 col-xs-9 sideBar-main">
-                <div className="row">
-                  <div className="col-sm-8 col-xs-8 sideBar-name">
-                    <span className="name-meta">John Doe</span>
-                  </div>
-                  <div className="col-sm-4 col-xs-4 pull-right sideBar-time">
-                    <span className="time-meta pull-right">18:18</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="row sideBar-body">
-              <div className="col-sm-3 col-xs-3 sideBar-avatar">
-                <div className="avatar-icon">
-                  <img src="img/man-2-512.png" />
-                </div>
-              </div>
-              <div className="col-sm-9 col-xs-9 sideBar-main">
-                <div className="row">
-                  <div className="col-sm-8 col-xs-8 sideBar-name">
-                    <span className="name-meta">John Doe</span>
-                  </div>
-                  <div className="col-sm-4 col-xs-4 pull-right sideBar-time">
-                    <span className="time-meta pull-right">18:18</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="row sideBar-body">
-              <div className="col-sm-3 col-xs-3 sideBar-avatar">
-                <div className="avatar-icon">
-                  <img src="img/man-2-512.png" />
-                </div>
-              </div>
-              <div className="col-sm-9 col-xs-9 sideBar-main">
-                <div className="row">
-                  <div className="col-sm-8 col-xs-8 sideBar-name">
-                    <span className="name-meta">John Doe</span>
-                  </div>
-                  <div className="col-sm-4 col-xs-4 pull-right sideBar-time">
-                    <span className="time-meta pull-right">18:18</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="row sideBar-body">
-              <div className="col-sm-3 col-xs-3 sideBar-avatar">
-                <div className="avatar-icon">
-                  <img src="img/man-2-512.png" />
-                </div>
-              </div>
-              <div className="col-sm-9 col-xs-9 sideBar-main">
-                <div className="row">
-                  <div className="col-sm-8 col-xs-8 sideBar-name">
-                    <span className="name-meta">John Doe</span>
-                  </div>
-                  <div className="col-sm-4 col-xs-4 pull-right sideBar-time">
-                    <span className="time-meta pull-right">18:18</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="row sideBar-body">
-              <div className="col-sm-3 col-xs-3 sideBar-avatar">
-                <div className="avatar-icon">
-                  <img src="img/man-2-512.png" />
-                </div>
-              </div>
-              <div className="col-sm-9 col-xs-9 sideBar-main">
-                <div className="row">
-                  <div className="col-sm-8 col-xs-8 sideBar-name">
-                    <span className="name-meta">John Doe</span>
-                  </div>
-                  <div className="col-sm-4 col-xs-4 pull-right sideBar-time">
-                    <span className="time-meta pull-right">18:18</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="row sideBar-body">
-              <div className="col-sm-3 col-xs-3 sideBar-avatar">
-                <div className="avatar-icon">
-                  <img src="img/man-2-512.png" />
-                </div>
-              </div>
-              <div className="col-sm-9 col-xs-9 sideBar-main">
-                <div className="row">
-                  <div className="col-sm-8 col-xs-8 sideBar-name">
-                    <span className="name-meta">John Doe</span>
-                  </div>
-                  <div className="col-sm-4 col-xs-4 pull-right sideBar-time">
-                    <span className="time-meta pull-right">18:18</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="row sideBar-body">
-              <div className="col-sm-3 col-xs-3 sideBar-avatar">
-                <div className="avatar-icon">
-                  <img src="img/man-2-512.png" />
-                </div>
-              </div>
-              <div className="col-sm-9 col-xs-9 sideBar-main">
-                <div className="row">
-                  <div className="col-sm-8 col-xs-8 sideBar-name">
-                    <span className="name-meta">John Doe</span>
-                  </div>
-                  <div className="col-sm-4 col-xs-4 pull-right sideBar-time">
-                    <span className="time-meta pull-right">18:18</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="row sideBar-body">
-              <div className="col-sm-3 col-xs-3 sideBar-avatar">
-                <div className="avatar-icon">
-                  <img src="img/man-2-512.png" />
-                </div>
-              </div>
-              <div className="col-sm-9 col-xs-9 sideBar-main">
-                <div className="row">
-                  <div className="col-sm-8 col-xs-8 sideBar-name">
-                    <span className="name-meta">John Doe</span>
-                  </div>
-                  <div className="col-sm-4 col-xs-4 pull-right sideBar-time">
-                    <span className="time-meta pull-right">18:18</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+
+
+
           </div>
         </div>
       </div>
