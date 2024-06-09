@@ -1,3 +1,4 @@
+import axios from "axios";
 import "./login.css";
 
 export default function Login() {
@@ -58,7 +59,7 @@ export default function Login() {
             </a>
 
             {/* <button>Sign In</button> */}
-            <a href="">
+            <a href="http://localhost:3000/api/user/create" target="_top">
               <div className="google-btn">
                 <div className="google-icon-wrapper">
                   <img

@@ -9,16 +9,17 @@ router.get("/create", passport.authenticate('google', { scope: ['profile','email
 router.get("/auth/google/callback",passport.authenticate('google'), (req, resp) => {
     // resp.send(req.user);
 
-    resp.redirect("/home");  
+    resp.redirect("http://localhost:5173/");  
 });
 router.get("/logout",(req,resp)=>{
-    console.log("logged out!");
-    req.logout();
-    res.redirect('/');
+    req.session.destroy(function (err) {
+        resp.redirect('/api/user/home'); 
+      });
 })
 router.get("/home", middleware.checking, (req, resp) => {
-    // resp.send("home");
-    resp.send(req.user._id);
+    resp.status(200).json({data: req.user });
+    // resp.send(req.user._id);
 });
+router.get("/getuser",userController.getuser);
 
 module.exports = router

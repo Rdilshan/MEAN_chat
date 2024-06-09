@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
+const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const session = require("express-session");
@@ -9,7 +10,11 @@ dotenv.config();
 
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
-
+app.use(cors({
+  origin: 'http://localhost:5173',
+  methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD'],
+  credentials: true
+}));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -21,7 +26,11 @@ const currentDate = new Date();
 app.use(session({
   secret: 'your-secret-key', // Replace 'your-secret-key' with your actual secret key
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: true,
+  cookie:{
+    httpOnly:true,
+    maxAge:3600000000
+  }
 }));
 
 
@@ -88,4 +97,8 @@ mongoose.connect("mongodb://localhost:27017/chat").then(() =>
 );
 
 const userRoute = require("./route/UserRoute");
+const chatRoute = require("./route/chatRoute");
+
 app.use("/api/user", userRoute);
+app.use("/api/chat", chatRoute);
+
