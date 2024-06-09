@@ -1,13 +1,31 @@
 
-const Massage = require("../model/massage");
 const chat = require("../model/chat");
 const massage = require("../model/massage");
 
 
+const addmsg = async (req, res) => {
 
-const addmsg=(req,res)=>{
-    res.status(201).json({ msg: "call create msg ..." });
-}
+        const userid = req.user._id;
+        const msg = req.body.msg;
+        const reciver = req.body.who;
+
+        const chatnow = await chat.findOne({ users: { $all: [reciver, userid] } });
+
+
+        const newMessage = new massage({
+            chatid: chatnow._id.toString(), 
+            sender: userid,
+            reciver: reciver,
+            message: msg,
+            createdAt: new Date() 
+        });
+        const savedMessage = await newMessage.save();
+        res.status(201).json(savedMessage);
+};
+
+
+
+
  const getmsg=async (req,res)=>{
     const userid = req.user._id;
     const requestData = req.body.refid;
@@ -33,7 +51,7 @@ const addmsg=(req,res)=>{
            
         ];
 
-        await Massage.insertMany(demoData);
+        await massage.insertMany(demoData);
         res.status(200).send("Demo data created successfully!");
     } catch (error) {
         console.error("Error creating demo data:", error);
