@@ -1,7 +1,19 @@
+import { useEffect, useState } from "react";
 import { Joinstore, getlinkstore, useStore,useConversationStore } from "./store.ts";
+import axios from "axios";
+import { format, isToday, isYesterday } from 'date-fns';
 
+interface Chat {
+  chatid: string;
+  createdAt: string;  
+  message: string;
+  sender: string;
+  __v: number;
+  _id: string;
+}
 export default function Conversation() {
   const store = useStore();
+  const [chatlist, setChatlist] = useState<Chat[]>([]);
   const linkstore = getlinkstore();
  const joinstore = Joinstore();
  const conversationID = useConversationStore();
@@ -12,6 +24,50 @@ export default function Conversation() {
   }
 
 
+  const Getmsg = async (id: string) => {
+    try {
+      const response = await axios.post(
+        'http://localhost:3000/api/msg/get',
+        { refid: id }, 
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+
+      const data = response.data;
+            setChatlist(data.messages);
+
+    } catch (error) {
+      console.error('Error sending data:', error);
+    }
+  };
+  
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    if (isToday(date)) {
+        return 'Today';
+    } else if (isYesterday(date)) {
+        return 'Yesterday';
+    } else {
+        return format(date, 'yyyy-MM-dd HH:mm');
+    }
+};
+
+
+  useEffect(() => {
+    setChatlist([])
+    const intervalId = setInterval(() => {
+        Getmsg(chatuser._id);
+    }, 10);
+
+    // Cleanup function to clear the interval on component unmount
+    return () => {
+        clearInterval(intervalId);
+    };
+}, [chatuser._id,  ]); 
 
   return (
     <>
@@ -52,26 +108,28 @@ export default function Conversation() {
               <a id="ankitjain28">Show Previous Message!</a>
             </div>
           </div>
-
-          <div className="row message-body">
-            <div className="col-sm-12 message-main-receiver">
-              <div className="receiver">
-                <div className="message-text">Hyy, Its Awesome..!</div>
-                <span className="message-time pull-right">Sun</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="row message-body">
-            <div className="col-sm-12 message-main-sender">
-              <div className="sender">
-                <div className="message-text">
-                  Thanks n I know its awesome...!
-                </div>
-                <span className="message-time pull-right">Sun</span>
-              </div>
-            </div>
-          </div>
+          {chatlist.map(chat => (
+                chat.sender != chatuser._id ? (
+                    <div className="row message-body" key={chat._id}>
+                        <div className="col-sm-12 message-main-receiver">
+                            <div className="receiver">
+                                <div className="message-text">{chat.message}</div>
+                                <span className="message-time pull-right">{formatDate(chat.createdAt)}</span>
+                            </div>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="row message-body" key={chat._id}>
+                        <div className="col-sm-12 message-main-sender">
+                            <div className="sender">
+                                <div className="message-text">{chat.message}</div>
+                                <span className="message-time pull-right">{formatDate(chat.createdAt)}</span>
+                            </div>
+                        </div>
+                    </div>
+                )
+            ))}
+          
         </div>
 
         <div className="row reply">
