@@ -1,11 +1,22 @@
 
 const Massage = require("../model/massage");
+const chat = require("../model/chat");
+const massage = require("../model/massage");
+
+
 
 const addmsg=(req,res)=>{
     res.status(201).json({ msg: "call create msg ..." });
 }
- const getmsg=(req,res)=>{
-    res.status(201).json({ msg: "call geting msg..." });
+ const getmsg=async (req,res)=>{
+    const userid = req.user._id;
+    const requestData = req.body.refid;
+
+    const chats = await chat.find({ users: { $all: [requestData, userid] } });
+    const chatIds = chats.map(chat => chat._id.toString());
+
+    const messages = await massage.find({ chatid: { $in: chatIds } });
+    res.status(201).json({ messages });
 
  }
 
@@ -13,26 +24,13 @@ const addmsg=(req,res)=>{
     try {
         const demoData = [
             {
-                chatid: "chat1",
-                sender: "user1",
-                receiver: "user2",
-                message: "Hello, how are you?",
-                createdAt: new Date()
-            },
-            {
-                chatid: "chat1",
-                sender: "user2",
-                receiver: "user1",
-                message: "I'm good, thanks! How about you?",
-                createdAt: new Date()
-            },
-            {
-                chatid: "chat2",
-                sender: "user3",
-                receiver: "user4",
-                message: "Hey, what's up?",
+                chatid: "66641d50df929f61dfaf9084",
+                sender: "6621d35fb0ad64fd09f6fcc2",
+                receiver: "663022e17fb57c2594a50ea9",
+                message: "nice",
                 createdAt: new Date()
             }
+           
         ];
 
         await Massage.insertMany(demoData);
