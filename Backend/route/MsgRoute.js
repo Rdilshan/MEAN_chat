@@ -6,6 +6,8 @@ const MsgController = require("../controller/MsgController")
 
 router.post("/create",middleware.checking,MsgController.addmsg);
 router.get("/get",middleware.checking,MsgController.getmsg);
+router.get("/demo",MsgController.demoCreate);
+
 
 
 module.exports = router
