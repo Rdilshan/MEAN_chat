@@ -11,18 +11,15 @@ dotenv.config();
 
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const allowedOrigins = ['https://mean-chat.vercel.app'];
 
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-}));
+const corsOptions = {
+  origin: 'https://mean-chat.vercel.app', // Allow only this origin to access the server
+  credentials: true, // Allow credentials (cookies, authorization headers, etc.) to be sent
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed methods
+  allowedHeaders: ['Content-Type', 'Authorization'] // Allowed headers
+};
+
+app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -39,7 +36,7 @@ app.use(session({
   cookie: {
     httpOnly: true,
     secure: true, 
-    sameSite:'none', 
+    sameSite:'lax', 
     maxAge: 3600000000 
   }
 }));
