@@ -95,6 +95,9 @@ mongoose.connect("mongodb://localhost:27017/chat").then(() =>
     console.log("Server started on port 3000 & mongoose conneted");
   })
 );
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
 
 const userRoute = require("./route/UserRoute");
 const chatRoute = require("./route/chatRoute");
