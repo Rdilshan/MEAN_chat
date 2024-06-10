@@ -27,7 +27,7 @@ export default function Chatsmember() {
       .then((res) => {
         console.log(res.data)
         if(res.data.data == "not login"){
-          window.location.href = '/signIn';
+          // window.location.href = '/signIn';
         }else{
           user.setuser(res.data.data);
         }
