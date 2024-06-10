@@ -11,7 +11,7 @@ dotenv.config();
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: 'https://mean-chat.vercel.app/',
   methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD'],
   credentials: true
 }));
@@ -59,7 +59,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/api/user/auth/google/callback",
+      callbackURL: "https://mean-chat.vercel.app/api/user/auth/google/callback",
     },
     function (accessToken, refreshToken, profile, done) {
       //runing some code

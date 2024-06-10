@@ -9,7 +9,7 @@ router.get("/create", passport.authenticate('google', { scope: ['profile','email
 router.get("/auth/google/callback",passport.authenticate('google'), (req, resp) => {
     // resp.send(req.user);
 
-    resp.redirect("http://localhost:5173/");  
+    resp.redirect("https://mean-chat.vercel.app/");  
 });
 router.get("/logout",(req,resp)=>{
     req.session.destroy(function (err) {
