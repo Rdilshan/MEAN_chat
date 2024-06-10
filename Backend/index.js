@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const MongoStore = require('connect-mongo');
+const MemoryStore = require('memorystore')(session);
 
 const session = require("express-session");
 const dotenv = require("dotenv");
