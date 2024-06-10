@@ -15,7 +15,7 @@ export default function Joinmember() {
   const sendData = async () => {
     try {
       const response = await axios.post(
-        'http://localhost:3000/api/chat/create',
+        'https://mean-chat-backend.vercel.app/api/chat/create',
         { refid: data }, 
         {
           headers: {

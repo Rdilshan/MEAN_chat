@@ -33,7 +33,7 @@ export default function Side() {
   }
   function logout() {
     axios
-      .get("http://localhost:3000/api/user/logout", {
+      .get("https://mean-chat-backend.vercel.app/api/user/logout", {
         headers: {
           "Content-Type": "application/json",
         },
@@ -49,7 +49,7 @@ export default function Side() {
 
   const chatsetload = () => {
     axios
-      .get("http://localhost:3000/api/chat/getchat", {
+      .get("https://mean-chat-backend.vercel.app/api/chat/getchat", {
         headers: {
           "Content-Type": "application/json",
         },

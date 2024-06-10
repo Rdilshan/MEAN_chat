@@ -52,7 +52,7 @@ const handleEnterKeyPress = (event: React.KeyboardEvent<HTMLTextAreaElement>) =>
 
 const sendmsgbackend = async()=>{
   const response = await axios.post(
-    'http://localhost:3000/api/msg/create',
+    'https://mean-chat-backend.vercel.app/api/msg/create',
     { msg: textValue,who:chatuser._id },
     {
       headers: {
@@ -68,7 +68,7 @@ const sendmsgbackend = async()=>{
 const Getmsg = async (id: string) => {
   try {
     const response = await axios.post(
-      'http://localhost:3000/api/msg/get',
+      'https://mean-chat-backend.vercel.app/api/msg/get',
       { refid: id },
       {
         headers: {

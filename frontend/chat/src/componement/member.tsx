@@ -18,7 +18,7 @@ export default function Chatsmember() {
   const checkinglogin = () => {
     try {
       axios
-      .get("http://localhost:3000/api/user/home", {
+      .get("https://mean-chat-backend.vercel.app/api/user/home", {
         headers: {
           "Content-Type": "application/json",
         },
