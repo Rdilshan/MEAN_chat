@@ -59,7 +59,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "https://mean-chat.vercel.app/api/user/auth/google/callback",
+      callbackURL: "https://mean-chat-backend.vercel.app/api/user/auth/google/callback",
     },
     function (accessToken, refreshToken, profile, done) {
       //runing some code
