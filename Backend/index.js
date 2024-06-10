@@ -29,10 +29,8 @@ app.use(bodyParser.json());
 const User = require("./model/user");
 const currentDate = new Date();
 
-
-
 app.use(session({
-  secret: 'your-secret-key', // Use environment variable for secret
+  secret: 'your-secret-key', 
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({
@@ -40,9 +38,9 @@ app.use(session({
   }),
   cookie: {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-    sameSite: 'lax', // Allows cookies with top-level navigations and GET requests
-    maxAge: 3600000000 // Adjust this to a reasonable session duration
+    secure: true, 
+    sameSite: 'lax', 
+    maxAge: 3600000000 
   }
 }));
 
@@ -64,8 +62,6 @@ passport.deserializeUser(async function (id, done) {
     done(err, null);
   }
 });
-
-
 
 passport.use(
   new GoogleStrategy(
