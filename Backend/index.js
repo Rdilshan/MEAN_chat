@@ -90,7 +90,7 @@ passport.use(
   )
 );
 
-mongoose.connect("mongodb://localhost:27017/chat").then(() =>
+mongoose.connect("mongodb+srv://rd118755:bAlv237ZphvskAsu@chatdb.vkz0y31.mongodb.net/chat?retryWrites=true&w=majority&appName=chatdb").then(() =>
   app.listen(3000, () => {
     console.log("Server started on port 3000 & mongoose conneted");
   })
