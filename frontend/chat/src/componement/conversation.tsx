@@ -102,7 +102,7 @@ useEffect(() => {
   setChatlist([])
   const intervalId = setInterval(() => {
     Getmsg(chatuser._id);
-  }, 100);
+  }, 10000);
 
   // Cleanup function to clear the interval on component unmount
   return () => {
