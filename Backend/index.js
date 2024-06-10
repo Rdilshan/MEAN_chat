@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const MongoStore = require('connect-mongo');
 
 const session = require("express-session");
 const dotenv = require("dotenv");
@@ -31,12 +32,17 @@ const currentDate = new Date();
 
 
 app.use(session({
-  secret: 'your-secret-key', // Replace 'your-secret-key' with your actual secret key
+  secret: 'your-secret-key', // Use environment variable for secret
   resave: false,
-  saveUninitialized: true,
-  cookie:{
-    httpOnly:true,
-    maxAge:3600000000
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: 'mongodb+srv://rd118755:bAlv237ZphvskAsu@chatdb.vkz0y31.mongodb.net/chat?retryWrites=true&w=majority&appName=chatdb'
+  }),
+  cookie: {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+    sameSite: 'lax', // Allows cookies with top-level navigations and GET requests
+    maxAge: 3600000000 // Adjust this to a reasonable session duration
   }
 }));
 
