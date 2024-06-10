@@ -13,13 +13,12 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 const corsOptions = {
-  origin: 'https://mean-chat.vercel.app', // Allow only this origin to access the server
-  credentials: true, // Allow credentials (cookies, authorization headers, etc.) to be sent
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed methods
-  allowedHeaders: ['Content-Type', 'Authorization'] // Allowed headers
+  origin: 'https://mean-chat.vercel.app', // Frontend URL
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -27,20 +26,19 @@ const User = require("./model/user");
 const currentDate = new Date();
 
 app.use(session({
-  secret: 'your-secret-key', 
+  secret: 'your-secret-key',
   resave: false,
   saveUninitialized: false,
-  store: MongoStore.create({
-    mongoUrl: 'mongodb+srv://rd118755:bAlv237ZphvskAsu@chatdb.vkz0y31.mongodb.net/chat?retryWrites=true&w=majority&appName=chatdb'
+  store: new MemoryStore({
+    checkPeriod: 86400000 
   }),
   cookie: {
+    secure: 'true', 
     httpOnly: true,
-    secure: true, 
-    sameSite:'lax', 
-    maxAge: 3600000000 
+    maxAge: 24 * 60 * 60 * 1000, 
+    sameSite: 'none' 
   }
 }));
-
 
 // Initialize Passport middleware
 app.use(passport.initialize());
