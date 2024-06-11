@@ -4,7 +4,6 @@ const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const session = require("express-session");
-const MemoryStore = require('memorystore')(session);
 
 app.set("trust proxy", 1); 
 const dotenv = require("dotenv");
@@ -29,18 +28,16 @@ const currentDate = new Date();
 app.use(session({
   secret: 'your-secret-key',
   resave: false,
-  proxy: true, 
-  saveUninitialized: false,
-  store: new MemoryStore({
-    checkPeriod: 86400000 
-  }),
-  cookie: {
-    secure: 'true', 
-    httpOnly: true,
-    maxAge: 24 * 60 * 60 * 1000, 
-    sameSite: 'none' 
+    saveUninitialized: true,
+    proxy: true, // Required for Heroku & Digital Ocean (regarding X-Forwarded-For)
+    name: 'MyCoolWebAppCookieName', // This needs to be unique per-host.
+    cookie: {
+      secure: true, // required for cookies to work on HTTPS
+      httpOnly: false,
+      sameSite: 'none'
+    }
   }
-}));
+));
 
 // Initialize Passport middleware
 app.use(passport.initialize());
