@@ -30,7 +30,7 @@ app.use(session({
   secret: 'your-secret-key',
   resave: false,
   proxy: true, 
-  saveUninitialized: true,
+  saveUninitialized: false,
   store: new MemoryStore({
     checkPeriod: 86400000 
   }),
