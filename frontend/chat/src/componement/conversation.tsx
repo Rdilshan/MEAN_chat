@@ -42,34 +42,18 @@ export default function Conversation() {
     };
     setChatlist(prevChatlist => [...prevChatlist, newMessage]);
     setTextValue("");
-}
-
-const handleEnterKeyPress = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-  if (event.key === 'Enter') {
-    sendmsg();
   }
-};
 
-const sendmsgbackend = async()=>{
-  const response = await axios.post(
-    'https://mean-chat-backend.vercel.app/api/msg/create',
-    { msg: textValue,who:chatuser._id },
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
+  const handleEnterKeyPress = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === 'Enter') {
+      sendmsg();
     }
-  );
-  console.log(response)
-}
+  };
 
-
-const Getmsg = async (id: string) => {
-  try {
+  const sendmsgbackend = async () => {
     const response = await axios.post(
-      'https://mean-chat-backend.vercel.app/api/msg/get',
-      { refid: id },
+      'https://mean-chat-backend.vercel.app/api/msg/create',
+      { msg: textValue, who: chatuser._id },
       {
         headers: {
           "Content-Type": "application/json",
@@ -77,118 +61,139 @@ const Getmsg = async (id: string) => {
         withCredentials: true,
       }
     );
-
-    const data = response.data;
-    setChatlist(data.messages);
-
-  } catch (error) {
-    console.error('Error sending data:', error);
+    console.log(response)
   }
-};
-
-const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  if (isToday(date)) {
-    return 'Today';
-  } else if (isYesterday(date)) {
-    return 'Yesterday';
-  } else {
-    return format(date, 'yyyy-MM-dd HH:mm');
-  }
-};
 
 
-useEffect(() => {
-  setChatlist([])
-  const intervalId = setInterval(() => {
-    Getmsg(chatuser._id);
-  }, 10000);
+  const Getmsg = async (id: string) => {
+    try {
+      const response = await axios.post(
+        'https://mean-chat-backend.vercel.app/api/msg/get',
+        { refid: id },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
 
-  // Cleanup function to clear the interval on component unmount
-  return () => {
-    clearInterval(intervalId);
+      const data = response.data;
+      setChatlist(data.messages);
+
+    } catch (error) {
+      console.error('Error sending data:', error);
+    }
   };
-}, [chatuser._id,]);
 
-return (
-  <>
-    <div
-      className={`col-sm-8 conversation 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    if (isToday(date)) {
+      return 'Today';
+    } else if (isYesterday(date)) {
+      return 'Yesterday';
+    } else {
+      return format(date, 'yyyy-MM-dd HH:mm');
+    }
+  };
+
+
+  useEffect(() => {
+    setChatlist([])
+    const intervalId = setInterval(() => {
+      Getmsg(chatuser._id);
+    }, 10000);
+
+    // Cleanup function to clear the interval on component unmount
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [chatuser._id,]);
+
+  return (
+    <>
+      <div
+        className={`col-sm-8 conversation 
         ${linkstore.visble === false ? "hide" : ""}
         ${joinstore.visble === false ? "hide" : ""}`
-      }
-    >
-      <div className="row heading">
-        <div className="col-sm-2 col-md-1 col-xs-3 heading-avatar mobileflex">
-          <i
-            className="fa  fa-2x  fa-angle-left backicon"
-            aria-hidden="true"
-            onClick={() => {
-              viewmember();
-            }}
-          ></i>
-          <div className="heading-avatar-icon">
-            <img src={chatuser.profilepic} />
-          </div>
-        </div>
-        <div className="col-sm-8 col-xs-7 heading-name">
-          <a className="heading-name-meta">{chatuser.name}</a>
-          <span>Online</span>
-        </div>
-        <div className="col-sm-1 col-xs-1  heading-dot pull-right">
-          <i
-            className="fa fa-ellipsis-v fa-2x  pull-right"
-            aria-hidden="true"
-          ></i>
-        </div>
-      </div>
-
-      <div className="row message" id="conversation">
-        <div className="row message-previous">
-          <div className="col-sm-12 previous">
-            <a id="ankitjain28">Show Previous Message!</a>
-          </div>
-        </div>
-        {chatlist.map(chat => (
-          chat.sender == chatuser._id ? (
-            <div className="row message-body" key={chat._id}>
-              <div className="col-sm-12 message-main-receiver">
-                <div className="receiver">
-                  <div className="message-text">{chat.message}</div>
-                  <span className="message-time pull-right">{formatDate(chat.createdAt)}</span>
-                </div>
-              </div>
+        }
+      >
+        <div className="row heading">
+          <div className="col-sm-2 col-md-1 col-xs-3 heading-avatar mobileflex">
+            <i
+              className="fa  fa-2x  fa-angle-left backicon"
+              aria-hidden="true"
+              onClick={() => {
+                viewmember();
+              }}
+            ></i>
+            <div className="heading-avatar-icon">
+              <img src={chatuser.profilepic} />
             </div>
+          </div>
+          <div className="col-sm-8 col-xs-7 heading-name">
+            <a className="heading-name-meta">{chatuser.name}</a>
+            <span>Online</span>
+          </div>
+          <div className="col-sm-1 col-xs-1  heading-dot pull-right">
+            <i
+              className="fa fa-ellipsis-v fa-2x  pull-right"
+              aria-hidden="true"
+            ></i>
+          </div>
+        </div>
+
+        <div className="row message" id="conversation">
+          <div className="row message-previous">
+            <div className="col-sm-12 previous">
+              <a id="ankitjain28">Show Previous Message!</a>
+            </div>
+          </div>
+          {chatlist && chatlist.length > 0 ? (
+            chatlist.map(chat => (
+              chat.sender === chatuser._id ? (
+                <div className="row message-body" key={chat._id}>
+                  <div className="col-sm-12 message-main-receiver">
+                    <div className="receiver">
+                      <div className="message-text">{chat.message}</div>
+                      <span className="message-time pull-right">{formatDate(chat.createdAt)}</span>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="row message-body" key={chat._id}>
+                  <div className="col-sm-12 message-main-sender">
+                    <div className="sender">
+                      <div className="message-text">{chat.message}</div>
+                      <span className="message-time pull-right">{formatDate(chat.createdAt)}</span>
+                    </div>
+                  </div>
+                </div>
+              )
+            ))
           ) : (
-            <div className="row message-body" key={chat._id}>
-              <div className="col-sm-12 message-main-sender">
-                <div className="sender">
-                  <div className="message-text">{chat.message}</div>
-                  <span className="message-time pull-right">{formatDate(chat.createdAt)}</span>
-                </div>
-              </div>
-            </div>
-          )
-        ))}
+            <div className="no-messages">No messages</div>
+          )}
 
-      </div>
 
-      <div className="row reply" >
-        <div className="col-sm-1 col-xs-1 reply-emojis">
-          <i className="fa fa-smile-o fa-2x"></i>
         </div>
-        <div className="col-sm-9 col-xs-9 reply-main">
-          <textarea className="form-control" value={textValue}
-            onChange={handleTextareaChange} onKeyDown={handleEnterKeyPress} ></textarea>
-        </div>
-        <div className="col-sm-1 col-xs-1 reply-recording">
-          <i className="fa fa-microphone fa-2x" aria-hidden="true"></i>
-        </div>
-        <div className="col-sm-1 col-xs-1 reply-send">
-          <i className="fa fa-send fa-2x" aria-hidden="true" onClick={sendmsg}></i>
+
+        <div className="row reply" >
+          <div className="col-sm-1 col-xs-1 reply-emojis">
+            <i className="fa fa-smile-o fa-2x"></i>
+          </div>
+          <div className="col-sm-9 col-xs-9 reply-main">
+            <textarea className="form-control" value={textValue}
+              onChange={handleTextareaChange} onKeyDown={handleEnterKeyPress} ></textarea>
+          </div>
+          <div className="col-sm-1 col-xs-1 reply-recording">
+            <i className="fa fa-microphone fa-2x" aria-hidden="true"></i>
+          </div>
+          <div className="col-sm-1 col-xs-1 reply-send">
+            <i className="fa fa-send fa-2x" aria-hidden="true" onClick={sendmsg}></i>
+          </div>
         </div>
       </div>
-    </div>
-  </>
-);
+    </>
+  );
 }
