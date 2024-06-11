@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const session = require("express-session");
 const MemoryStore = require('memorystore')(session);
 
-
+app.set("trust proxy", 1); 
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -29,7 +29,8 @@ const currentDate = new Date();
 app.use(session({
   secret: 'your-secret-key',
   resave: false,
-  saveUninitialized: false,
+  proxy: true, 
+  saveUninitialized: true,
   store: new MemoryStore({
     checkPeriod: 86400000 
   }),
