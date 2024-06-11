@@ -4,6 +4,8 @@ const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const session = require("express-session");
+const helmet = require('helmet');
+
 
 app.set("trust proxy", 1); 
 const dotenv = require("dotenv");
@@ -21,6 +23,14 @@ app.use(cors(corsOptions));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(helmet()); // Use Helmet to set security headers
+
+// Set a custom Permissions-Policy header (without the unrecognized feature)
+app.use((req, res, next) => {
+  res.setHeader('Permissions-Policy', 'geolocation=(self), microphone=()');
+  next();
+});
+
 
 const User = require("./model/user");
 const currentDate = new Date();
